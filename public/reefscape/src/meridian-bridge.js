@@ -27,8 +27,8 @@ import { Simulation, STRIDE } from '../../src/simulation.js';
 import { connect } from '../../src/stream.js';
 import { createNameplates } from './nameplates.js';
 
-const POOL = { chromis: 48, anthias: 32 }; // species 0/1 -> chromis, 2/3 -> anthias
-const KIND_FOR_SPECIES = ['chromis', 'chromis', 'anthias', 'anthias'];
+const POOL = { chromis: 48, anthias: 32 }; // shrimp and wallets are chromis; smart, funds, and whales are anthias
+const MESH = { shrimp: 'chromis', wallet: 'chromis', smart: 'anthias', institution: 'anthias', whale: 'anthias' };
 const AMPLITUDE = { chromis: 0.095, anthias: 0.095 }; // matches native non-clown amplitude
 const HIDE_Y = -50; // parked far below the tank floor when a pool slot is unused
 
@@ -134,7 +134,7 @@ export function createMeridianBridge(scene, camera) {
       plates.begin();
       for (let i = 0; i < r.count; i++) {
         const o = i * STRIDE;
-        const kind = KIND_FOR_SPECIES[buf[o + 7]];
+        const kind = MESH[sim.entities[i].bracket] || 'chromis';
         // sim entity id isn't in the buffer; recover it via array order (buffer is built
         // from sim.entities in the same order every call within a frame)
         const id = sim.entities[i].id;

@@ -9,6 +9,7 @@ import { createFishSchool } from './fish-model.js';
 import { createMeridianBridge } from './meridian-bridge.js';
 import { installWatchBar } from '../../src/watch-ui.js';
 import { installPoolOrbit } from './pool-orbit.js';
+import { createSharkPass } from './shark-pass.js';
 import { createShrimp } from './shrimp.js';
 import { createParticles } from './particles.js';
 import { ReefSimulation, FIXED_STEP } from './simulation.js';
@@ -104,12 +105,14 @@ async function start(){
   rockPrepass.add(new THREE.Mesh(rockSurface.geometry,rockDepthMaterial));
   const simulation=new ReefSimulation();
   const fishSchool=createFishSchool(scene,simulation);
+  const shark=createSharkPass(scene,simulation);
   const meridian=createMeridianBridge(scene, camera);
   window.Meridian=Object.assign(window.Meridian||{},{camera,sim:meridian.sim});
   const shrimp=createShrimp(scene,simulation),particles=createParticles(scene,simulation,shadow);
   function sync(dt,swimDt){
     waterTime.value=simulation.time;
     fishSchool.update();
+    shark.update(swimDt==null?dt:swimDt);
     meridian.update(swimDt==null?dt:swimDt);
     shrimp.update();particles.update(dt);
   }

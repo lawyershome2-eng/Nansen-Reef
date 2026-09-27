@@ -169,6 +169,16 @@ export class ReefSimulation {
     while(f.route.length>1&&f.position.distanceToSquared(f.route[0])<.30)f.route.shift();
     return f.route[0]||goal;
   }
+  // A shark overhead. Fish already inside the bow wave bolt for their coral;
+  // the school's own alarm then recruits the rest, so the dive travels.
+  surge(x, z) {
+    const r2 = 3.2 * 3.2;
+    for (const f of this.fish) {
+      const dx = f.position.x - x;
+      const dz = f.position.z - z;
+      if (dx * dx + dz * dz < r2) f.alarm = Math.max(f.alarm, 2.4);
+    }
+  }
   // Pellets enter just inside the wide view's top edge, which meets the front of the reef
   // about 1.2 units below the surface; dropped at the surface they took six seconds to show.
   feed(x=0,z=1) {

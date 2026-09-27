@@ -70,3 +70,36 @@ form.watch button[type="submit"]:hover { background: var(--surface-hover); }
 
 #scene { touch-action: none; cursor: grab; }
 #scene:active { cursor: grabbing; }
+
+details.key {
+  top: auto;
+  right: auto;
+  bottom: calc(var(--space-6) + var(--control-height) + var(--space-8));
+  left: var(--space-8);
+  width: min(280px, calc(100% - var(--space-8)));
+  display: block;
+  background: var(--scrim);
+  padding: var(--space-1) var(--space-3);
+}
+details.key summary {
+  min-height: var(--control-height);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  list-style: none;
+}
+details.key summary::-webkit-details-marker { display: none; }
+details.key ul { margin: 0 0 var(--space-2); padding: 0; list-style: none; }
+details.key li {
+  padding: var(--space-1) 0;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+details.key b { color: var(--text); font-weight: 650; margin-right: var(--space-1); }
+@media (max-width: 600px) {
+  details.key {
+    left: var(--space-4);
+    bottom: calc(var(--space-4) + 96px);
+    width: min(240px, calc(100% - var(--space-8)));
+  }
+}

@@ -1,0 +1,9 @@
+# Build outputs
+.vercel/
+.tanstack/
+
+# Grok workspace temp files
+.grok/
+
+# Dependencies
+node_modules/

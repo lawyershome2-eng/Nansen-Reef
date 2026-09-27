@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { dirFor, eventToParams } from "./mapper.js";
+import { bracketFor, dirFor, eventToParams } from "./mapper.js";
 
 const base = {
   usd: 10_000,
@@ -26,4 +26,12 @@ test("a missing actor does not throw", () => {
   const params = eventToParams({ usd: 100, side: "transfer", token: { symbol: "X", address: "0x" }, chain: "base" });
   assert.equal(params.behavior, "drift");
   assert.ok(Number.isFinite(params.scale));
+});
+
+test("size and who decide the bracket", () => {
+  assert.equal(bracketFor({ ...base, usd: 200 }), "shrimp");
+  assert.equal(bracketFor({ ...base, usd: 10_000 }), "wallet");
+  assert.equal(bracketFor({ ...base, usd: 10_000, from: { kind: "smart", label: "S", address: "0x1" } }), "smart");
+  assert.equal(bracketFor({ ...base, usd: 50_000, from: { kind: "fund", label: "F", address: "0x1" } }), "institution");
+  assert.equal(bracketFor({ ...base, usd: 2_000_000 }), "whale");
 });
